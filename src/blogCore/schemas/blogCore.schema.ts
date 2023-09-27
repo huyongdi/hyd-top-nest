@@ -6,13 +6,16 @@ export type BlogCoreDocument = BlogCore & Document;
 @Schema()
 export class BlogCore extends Document {
   @Prop({ required: true })
-  type: string;
+  type: number;
 
   @Prop()
   title: string;
 
   @Prop()
   content: string;
+
+  @Prop()
+  createTime: string;
 }
 
 export const BlogCoreSchema = SchemaFactory.createForClass(BlogCore);

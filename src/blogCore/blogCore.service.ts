@@ -6,15 +6,28 @@ import { BlogCore } from './schemas/blogCore.schema';
 
 @Injectable()
 export class BlogCoreService {
-  constructor(@InjectModel(BlogCore.name) private readonly blogModel: Model<BlogCore>) {}
+  constructor(
+    @InjectModel(BlogCore.name) private readonly blogModel: Model<BlogCore>,
+  ) {}
 
   async create(createBlogDto: CreateBlogDto): Promise<BlogCore> {
     const createdBlog = await this.blogModel.create(createBlogDto);
     return createdBlog;
   }
 
+  async update(createBlogDto: CreateBlogDto): Promise<number> {
+    return this.blogModel.findByIdAndUpdate(
+      { _id: createBlogDto._id },
+      createBlogDto,
+    );
+  }
+
   async findAll(): Promise<BlogCore[]> {
     return this.blogModel.find().exec();
+  }
+
+  async findType(type: number): Promise<Array<BlogCore>> {
+    return this.blogModel.find({ type }).exec();
   }
 
   async findOne(id: string): Promise<BlogCore> {
